@@ -234,6 +234,10 @@ network-analyzer-YYYYMMDD-HHMMSS.txt
 ---
 
 ## Установка и использование
+# Скопируйте скрипт
+```
+wget https://github.com/saym101/network-analyzer/raw/refs/heads/main/network-analyzer.sh
+```
 
 ### 1. Сделать исполняемым:
 
