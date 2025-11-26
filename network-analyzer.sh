@@ -125,7 +125,7 @@ fi
 # Проверка утилит
 ################################################################################
 REQUIRED_TOOLS="ip ss grep awk sed"
-OPTIONAL_TOOLS="ethtool iwconfig nmcli netstat iptables nft tc brctl ovs-vsctl docker tcpdump route"
+OPTIONAL_TOOLS="ethtool iwconfig nmcli netstat iptables nft tc brctl ovs-vsctl docker tcpdump route iw"
 
 declare -A TOOL_PACKAGE_MAP=(
     [ethtool]="ethtool"
@@ -1191,3 +1191,4 @@ echo -e "${GREEN}${BOLD}✓ Анализ завершен: $(date '+%Y-%m-%d %H:
 echo ""
 
 exit 0
+
