@@ -1,5 +1,9 @@
 # Network Analyzer
 
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Bash](https://img.shields.io/badge/bash-5.0%2B-green.svg)
+![Platform](https://img.shields.io/badge/platform-Debian%20%7C%20Ubuntu-orange.svg)
+
 Комплексная диагностика сетевой конфигурации для Debian 12 / Ubuntu 20+ / Proxmox
 
 `network-analyzer.sh` — это расширенный скрипт для автоматической диагностики сети, сбора конфигураций, поиска ошибок и анализа работы сетевых компонентов Linux-системы. Подходит для серверов, рабочих станций, виртуальных машин и инфраструктур с Proxmox / Docker / VPN / Firewall.
@@ -281,6 +285,5 @@ sudo ./network-analyzer.sh --with-passwords
 
 ## Лицензия
 
-MIT (или любую другую можешь указать)
-
+MIT ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 ---
