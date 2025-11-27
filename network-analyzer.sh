@@ -611,22 +611,41 @@ show_bonding() {
 ################################################################################
 show_qos() {
     print_header "13. QoS / Traffic Control"
-    
-    if command -v tc &> /dev/null; then
-        print_subheader "Traffic Control (tc) правила"
-        for iface in $(ip -o link show | awk -F': ' '{print $2}' | grep -v lo); do
-            qdisc=$(tc qdisc show dev "$iface" 2>/dev/null)
-            if [[ "$qdisc" != *"noqueue"* ]] && [[ -n "$qdisc" ]]; then
-                echo -e "${YELLOW}Интерфейс: $iface${NC}"
-                tc qdisc show dev "$iface"
-                tc class show dev "$iface" 2>/dev/null
-                tc filter show dev "$iface" 2>/dev/null
-                echo ""
-            fi
-        done
-    else
+
+    # Если tc нет — просто пишем и выходим
+    if ! command -v tc &> /dev/null; then
         echo "tc (iproute2) не установлен"
+        echo ""
+        return
     fi
+
+    print_subheader "Traffic Control (tc) правила"
+
+    # Безопасно получаем список интерфейсов, кроме lo
+    local ifaces
+    ifaces=$(ip -o link show 2>/dev/null | awk -F': ' '{print $2}' | grep -v lo || true)
+
+    if [[ -z "$ifaces" ]]; then
+        echo "Нет активных интерфейсов (кроме lo) или не удалось получить список"
+        echo ""
+        return
+    fi
+
+    local iface qdisc
+    for iface in $ifaces; do
+        # ВАЖНО: не даём tc обрушить скрипт
+        qdisc=$(tc qdisc show dev "$iface" 2>/dev/null || true)
+
+        # Если что-то есть и это не noqueue — показываем
+        if [[ -n "$qdisc" ]] && [[ "$qdisc" != *"noqueue"* ]]; then
+            echo -e "${YELLOW}Интерфейс: $iface${NC}"
+            tc qdisc show dev "$iface" 2>/dev/null || true
+            tc class show dev "$iface" 2>/dev/null || true
+            tc filter show dev "$iface" 2>/dev/null || true
+            echo ""
+        fi
+    done
+
     echo ""
 }
 
@@ -1191,4 +1210,5 @@ echo -e "${GREEN}${BOLD}✓ Анализ завершен: $(date '+%Y-%m-%d %H:
 echo ""
 
 exit 0
+
 
